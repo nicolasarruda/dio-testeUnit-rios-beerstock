@@ -1,13 +1,13 @@
-package one.digitalinnovation.personapi.utils;
+package one.digitalinnovation.beerstock.tests.utils;
 
-import one.digitalinnovation.personapi.dto.request.PhoneDTO;
-import one.digitalinnovation.personapi.entities.Phone;
-import one.digitalinnovation.personapi.enums.PhoneType;
+import one.digitalinnovation.beerstock.dto.PhoneDTO;
+import one.digitalinnovation.beerstock.entities.Phone;
+import one.digitalinnovation.beerstock.enums.BeerType;
 
 public class PhoneUtils {
 
     private static final String PHONE_NUMBER = "1199999-9999";
-    private static final PhoneType PHONE_TYPE = PhoneType.MOBILE;
+    private static final BeerType PHONE_TYPE = BeerType.MOBILE;
     private static final long PHONE_ID = 1L;
 
     public static PhoneDTO createFakeDTO() {

@@ -1,10 +1,10 @@
-package one.digitalinnovation.personapi.utils;
+package one.digitalinnovation.beerstock.tests.utils;
 
 import java.time.LocalDate;
 import java.util.Collections;
 
-import one.digitalinnovation.personapi.dto.request.PersonDTO;
-import one.digitalinnovation.personapi.entities.Person;
+import one.digitalinnovation.beerstock.dto.PersonDTO;
+import one.digitalinnovation.beerstock.entities.Person;
 
 public class PersonUtils {
 

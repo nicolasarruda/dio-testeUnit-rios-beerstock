@@ -1,13 +1,13 @@
-package one.digitalinnovation.personapi;
+package one.digitalinnovation.beerstock;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PersonapiApplication {
+public class BeerStockApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PersonapiApplication.class, args);
+		SpringApplication.run(BeerStockApplication.class, args);
 	}
 
 }
