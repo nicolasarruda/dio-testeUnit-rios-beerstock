@@ -43,7 +43,7 @@ public class BeerService {
 				.collect(Collectors.toList());
 	}
 
-	public void delete(Long id) throws BeerNotFoundException {
+	public void deleteById(Long id) throws BeerNotFoundException {
 		verifyIfExists(id);
 		beerRepository.deleteById(id);
 	}
