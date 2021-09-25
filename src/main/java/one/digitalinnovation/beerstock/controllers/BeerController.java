@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -18,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.AllArgsConstructor;
 import one.digitalinnovation.beerstock.dto.BeerDTO;
-import one.digitalinnovation.beerstock.dto.response.MessageResponseDTO;
+import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import one.digitalinnovation.beerstock.services.BeerService;
 
@@ -31,18 +30,8 @@ public class BeerController {
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public MessageResponseDTO createBeer(@RequestBody @Valid BeerDTO beerDTO) {
+	public BeerDTO createBeer(@RequestBody @Valid BeerDTO beerDTO) throws BeerAlreadyRegisteredException {
 		return  beerService.createBeer(beerDTO);
-	}
-	
-	@GetMapping
-	public List<BeerDTO> listAll(){
-		return beerService.listAll();
-	}
-	
-	@GetMapping("/{id}")
-	public BeerDTO findById(@PathVariable Long id) throws BeerNotFoundException {
-		return beerService.findById(id);
 	}
 	
 	@GetMapping("/{name}")
@@ -50,9 +39,9 @@ public class BeerController {
 		return beerService.findByName(name);
 	}
 	
-	@PutMapping("/{id}")
-	public MessageResponseDTO updateById(@PathVariable Long id, @RequestBody @Valid BeerDTO beerDTO) throws BeerNotFoundException {
-		return beerService.updateById(id, beerDTO);
+	@GetMapping
+	public List<BeerDTO> listAll(){
+		return beerService.listAll();
 	}
 	
 	@DeleteMapping("/{id}")

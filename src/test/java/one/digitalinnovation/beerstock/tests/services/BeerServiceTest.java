@@ -1,5 +1,8 @@
 package one.digitalinnovation.beerstock.tests.services;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -17,6 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import one.digitalinnovation.beerstock.dto.BeerDTO;
 import one.digitalinnovation.beerstock.entities.Beer;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
+import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import one.digitalinnovation.beerstock.mapper.BeerMapper;
 import one.digitalinnovation.beerstock.repositories.BeerRepository;
 import one.digitalinnovation.beerstock.services.BeerService;
@@ -64,7 +68,32 @@ public class BeerServiceTest {
 	     
 	     //then
 	     assertThrows(BeerAlreadyRegisteredException.class, () -> beerService.createBeer(expectedBeerDTO));
-	     
-	     
+	}
+	
+	@Test
+	void whenValidBeerNameIsGivenThenReturnBeer() throws BeerNotFoundException{
+		// given
+	    BeerDTO expectedFoundBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+	    Beer expectedFoundBeer = beerMapper.toModel(expectedFoundBeerDTO);
+		
+	    // when
+	    when(beerRepository.findByName(expectedFoundBeer.getName())).thenReturn(Optional.of(expectedFoundBeer));
+	    
+	    // then
+	    BeerDTO foundBeerDTO = beerService.findByName(expectedFoundBeerDTO.getName());
+	    
+	    MatcherAssert.assertThat(foundBeerDTO, is(equalTo(expectedFoundBeerDTO)));
+	}
+	
+	@Test
+	void whenNoRegisteredBeerNameIsGivenThenThrowAnException() throws BeerNotFoundException{
+		// given
+	    BeerDTO expectedFoundBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+		
+	    // when
+	    when(beerRepository.findByName(expectedFoundBeerDTO.getName())).thenReturn(Optional.empty());
+	    
+	    // then
+	    assertThrows(BeerNotFoundException.class, () ->beerService.findByName(expectedFoundBeerDTO.getName())); 
 	}
 }
