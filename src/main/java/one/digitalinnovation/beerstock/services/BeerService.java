@@ -12,6 +12,7 @@ import one.digitalinnovation.beerstock.dto.BeerDTO;
 import one.digitalinnovation.beerstock.entities.Beer;
 import one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import one.digitalinnovation.beerstock.exception.BeerNotFoundException;
+import one.digitalinnovation.beerstock.exception.BeerStockExceededException;
 import one.digitalinnovation.beerstock.mapper.BeerMapper;
 import one.digitalinnovation.beerstock.repositories.BeerRepository;
 
@@ -58,5 +59,16 @@ public class BeerService {
 	private Beer verifyIfExists(Long id) throws BeerNotFoundException {
 		return beerRepository.findById(id)
 				.orElseThrow(() -> new BeerNotFoundException(id));
+	}
+	
+	public BeerDTO increment(Long id, int quantityToIncrement) throws BeerNotFoundException, BeerStockExceededException {
+		Beer beerToIncrementStock = verifyIfExists(id);
+		int quantityAfterIncrement = quantityToIncrement + beerToIncrementStock.getQuantity();
+		if (quantityAfterIncrement <= beerToIncrementStock.getMax()) {
+			beerToIncrementStock.setQuantity(beerToIncrementStock.getQuantity() + quantityToIncrement);
+			Beer incrementedBeerStock = beerRepository.save(beerToIncrementStock);
+			return beerMapper.toDTO(incrementedBeerStock);
+		}
+		throw new BeerStockExceededException(id, quantityToIncrement);
 	}
 }
